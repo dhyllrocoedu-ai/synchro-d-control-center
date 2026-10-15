@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "outDir": "../dist-electron",
+    "rootDir": ".",
+    "baseUrl": "..",
+    "paths": {
+      "@/*": ["src/*"],
+      "@electron/*": ["electron/*"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "dist", "../dist", "../dist-electron", "../src"]
+}

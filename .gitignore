@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+dist-electron/
+build/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+electron-log/
+
+# Database
+*.db
+*.db-journal
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# Testing
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Electron
+apps/desktop/dist/
+apps/desktop/dist-electron/
+apps/desktop/*.dmg
+apps/desktop/*.exe
+apps/desktop/*.AppImage
+apps/desktop/*.blockmap
+apps/desktop/*.snap
+
+# Backend
+apps/backend/dist/
+apps/backend/prisma/migrations/
+
+# Certificates
+*.pfx
+*.p12
+cert.pfx
+cert.p12
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# Misc
+*.pem
+.vercel
+.netlify

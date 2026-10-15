@@ -1,0 +1,16 @@
+{
+  "name": "@synch-cc/shared-types",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@synch-cc/eslint-config": "workspace:*",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}

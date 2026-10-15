@@ -1,0 +1,73 @@
+name: Release Windows
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.0.0)'
+        required: true
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build desktop app
+        run: pnpm --filter @synch-cc/desktop build
+        env:
+          NODE_ENV: production
+
+      - name: Download EV Certificate
+        if: env.EV_CERT_BASE64 != ''
+        run: |
+          $certBytes = [System.Convert]::FromBase64String("${{ secrets.EV_CERT_BASE64 }}")
+          [System.IO.File]::WriteAllBytes("cert.pfx", $certBytes)
+        shell: pwsh
+
+      - name: Sign Executables
+        if: env.EV_CERT_BASE64 != ''
+        run: |
+          $password = "${{ secrets.EV_CERT_PASSWORD }}"
+          signtool sign /f "cert.pfx" /p $password /tr http://timestamp.digicert.com /td sha256 /fd sha256 apps/desktop/dist/win-unpacked/*.exe
+          signtool sign /f "cert.pfx" /p $password /tr http://timestamp.digicert.com /td sha256 /fd sha256 apps/desktop/dist/*.exe
+        shell: pwsh
+
+      - name: Package with electron-builder
+        run: pnpm --filter @synch-cc/desktop dist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_LINK: ${{ secrets.EV_CERT_BASE64 }}
+          CSC_KEY_PASSWORD: ${{ secrets.EV_CERT_PASSWORD }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            apps/desktop/dist/*.exe
+            apps/desktop/dist/*.blockmap
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,29 @@
+{
+  "name": "synch-cc",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "dev": "concurrently -k -n \"BACKEND,DESKTOP\" -c \"cyan,magenta\" \"pnpm dev:backend\" \"pnpm dev:desktop\"",
+    "dev:desktop": "pnpm --filter @synch-cc/desktop dev",
+    "dev:web": "pnpm --filter @synch-cc/desktop dev:web",
+    "dev:backend": "pnpm --filter @synch-cc/backend dev",
+    "build:all": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "db:push": "pnpm --filter @synch-cc/desktop db:push",
+    "db:studio": "pnpm --filter @synch-cc/desktop db:studio",
+    "migrate:supabase": "pnpm --filter @synch-cc/desktop migrate:supabase"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.1.0"
+}
