@@ -67,23 +67,6 @@ pnpm dev:desktop      # Electron + Vite
 pnpm dev:backend      # NestJS API
 ```
 
-### Environment Variables
-
-**Backend** (`apps/backend/.env`):
-```
-DATABASE_URL=postgresql://user:pass@localhost:5432/synch_cc
-JWT_SECRET=your-secret-key
-JWT_REFRESH_SECRET=your-refresh-secret
-JWT_EXPIRES_IN=15m
-PORT=3001
-```
-
-**Desktop** (`apps/desktop/.env`):
-```
-VITE_API_URL=http://localhost:3001
-```
-
-## Development
 
 ### Available Commands
 
